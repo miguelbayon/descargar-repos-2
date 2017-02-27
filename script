@@ -1,6 +1,7 @@
 #!/bin/bash
 
 filename="repos"
+dirActual=$(pwd)
 
 while read -r line
 do
@@ -18,20 +19,23 @@ do
   parteA="-01"
   parteB="-02"
   
-  git clone $comienzoRepositorio.git $parteUsuario$parteA
+  if [ -n "$commit01" ]; then
+    git clone $comienzoRepositorio.git $parteUsuario$parteA  
+    cd $parteUsuario$parteA
+    git reset --hard $commit01    
+    cd $dirActual  
+    cp *.java ./$parteUsuario$parteA     
+  fi  
   
-  cd $parteUsuario$parteA
-  git reset --hard $commit01
-  cd ..
-  
-  cp *.java ./$parteUsuario$parteA 
-  
-  git clone $comienzoRepositorio.git $parteUsuario$parteB
-  cd $parteUsuario$parteA
-  git reset --hard $commit02
-  cd ..  
-    
-  cp *.java ./$parteUsuario$parteB
+
+  if [ -n "$commit02" ]; then
+    git clone $comienzoRepositorio.git $parteUsuario$parteB  
+    cd $parteUsuario$parteB
+    git reset --hard $commit02
+    cd $dirActual  
+    cp *.java ./$parteUsuario$parteB
+  fi      
   
   
 done < $filename
+
