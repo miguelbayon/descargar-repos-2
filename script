@@ -1,0 +1,37 @@
+#!/bin/bash
+
+filename="repos"
+
+while read -r line
+do
+
+  parteUsuario=$(echo $line| cut -d '@' -f 1)  
+  
+  parteRepo01=$(echo $line| cut -d ';' -f 2)  
+  comienzoRepositorio=(${parteRepo01///commit/ })
+  
+  parteRepo02=$(echo $line| cut -d ';' -f 3)  
+  
+  commit01=${parteRepo01##*/}
+  commit02=${parteRepo02##*/}
+  
+  parteA="-01"
+  parteB="-02"
+  
+  git clone $comienzoRepositorio.git $parteUsuario$parteA
+  
+  cd $parteUsuario$parteA
+  git reset --hard $commit01
+  cd ..
+  
+  cp *.java ./$parteUsuario$parteA 
+  
+  git clone $comienzoRepositorio.git $parteUsuario$parteB
+  cd $parteUsuario$parteA
+  git reset --hard $commit02
+  cd ..  
+    
+  cp *.java ./$parteUsuario$parteB
+  
+  
+done < $filename
