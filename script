@@ -24,7 +24,7 @@ do
     cd $parteUsuario$parteA
     git reset --hard $commit01    
     cd $dirActual  
-    cp *.java ./$parteUsuario$parteA     
+    cp -rf *.java ./$parteUsuario$parteA     
   fi  
   
 
@@ -33,7 +33,7 @@ do
     cd $parteUsuario$parteB
     git reset --hard $commit02
     cd $dirActual  
-    cp *.java ./$parteUsuario$parteB
+    cp -rf *.java ./$parteUsuario$parteB
   fi      
   
   
